@@ -8,11 +8,8 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
-var imgur = require('imgur-upload');
-var mongo = require('mongoskin');
 
-var db = mongo.db('localhost:27017/spoonpics', {safe: true}).collection('pics');
-imgur.setClientID('b1cf3448754f15f');
+var upload = require('./upload');
 
 var app = express();
 
@@ -41,38 +38,10 @@ app.post('/email', function (req, res) {
     return res.send(200, 'no image');
   }
   console.log('Uploading image at ' + filename + ' to imgur');
-  imgur.upload(filename, function (err, imgurRes) {
 
-    if (err) {
-      res.send(500, 'imgur upload failed');
-      console.log('Imgur upload failed');
-      console.dir(err);
-    } 
-
-    else if (!imgurRes.data || !imgurRes.data.link) {
-      // imgur-upload calls my callbakc twice for some reason
-      console.log("bad imgur callback");
-    }
-
-    else {
-      db.insert({
-        url: imgurRes.data.link,
-        from: req.body.from
-      }, {}, function (err) {
-        if (err) {
-          console.log('error inserting into mongo');
-          console.dir(err);
-          res.send(500, 'mongo insert failed');
-        } else {
-          console.log("inserted into mongo");
-          res.end();
-        }
-      });
-
-      fs.unlink(filename, function (err) { 
-        if (err) console.log('Error deleting temporary file: ' + filename); 
-      });
-    }
+  upload(filename, req.body.from, function (err) {
+    if (err) res.send(500, err);
+    else res.end();
   });
 });
 
