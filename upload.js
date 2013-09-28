@@ -1,5 +1,6 @@
 var imgur = require('imgur-upload');
 var mongo = require('mongoskin');
+var fs = require('fs');
 
 var db = mongo.db('localhost:27017/spoonpics', {safe: true}).collection('pics');
 imgur.setClientID('b1cf3448754f15f');
