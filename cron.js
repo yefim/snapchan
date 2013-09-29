@@ -15,6 +15,7 @@ client.on("sync", function(data) {
         upload(filename, snap.id, snap.sn, function(err, dup) {
           if (err) console.log(err);
           if (!dup) {
+            console.log("upload that bitch to reddit");
             // upload that bitch to reddit
           }
         });

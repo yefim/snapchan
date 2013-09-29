@@ -23,7 +23,7 @@ function upload (filename, id, from, callback) {
           try {
             db.insert({
               url: imgurRes.data.link,
-              id: id
+              id: id,
               from: from
             }, {}, function (err) {
               if (err) {
