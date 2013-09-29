@@ -7,6 +7,7 @@ imgur.setClientID('b1cf3448754f15f');
 
 function upload (filename, id, from, callback) {
   imgur.upload(filename, function (err, imgurRes) {
+    console.log(imgurRes);
 
     if (err) {
       console.dir(err);
@@ -30,12 +31,13 @@ function upload (filename, id, from, callback) {
                 console.dir(err);
                 callback('mongo insert failed');
               } else {
-                console.log("mongo insert succeeded");
+                //console.log("mongo insert succeeded");
                 callback(null, false, imgurRes.data.link);
               }
             }); 
           } catch (e) { console.dir(e); }
         } else {
+          //console.log("duplicate lol");
           callback(null, true, null);
         }
       });

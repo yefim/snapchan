@@ -10,6 +10,9 @@
     "multipart-form-stream": "*",
     "stream-sink": "*",
     "express": "3.4.0",
-    "jade": "*"
+    "jade": "*",
+    "request": "*",
+    "imgur-upload": "*",
+    "mongoskin": "*"
   }
 }
