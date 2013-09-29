@@ -30,7 +30,7 @@ function upload (filename, id, from, callback) {
             callback('mongo insert failed');
           } else {
             //console.log("mongo insert succeeded");
-            callback(null, false, imgurRes.data.link);
+            callback(null, imgurRes.data.link);
           }
         }); 
       } catch (e) { console.dir(e); }
