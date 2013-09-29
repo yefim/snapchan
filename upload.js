@@ -31,12 +31,12 @@ function upload (filename, id, from, callback) {
                 callback('mongo insert failed');
               } else {
                 console.log("mongo insert succeeded");
-                callback(null, false);
+                callback(null, false, imgurRes.data.link);
               }
             }); 
           } catch (e) { console.dir(e); }
         } else {
-          callback(null, true);
+          callback(null, true, null);
         }
       });
 

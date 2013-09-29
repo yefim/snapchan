@@ -42,6 +42,7 @@ function submit(url, title, callback) {
         headers: headers
       }, function(err, resp, body) {
         console.log("Just uploaded to Reddit");
+        callback();
       });
     }
   });
