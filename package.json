@@ -6,6 +6,9 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "uuid-v4": "*",
+    "multipart-form-stream": "*",
+    "stream-sink": "*",
     "express": "3.4.0",
     "jade": "*"
   }
