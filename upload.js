@@ -6,21 +6,21 @@ var db = mongo.db('localhost:27017/snapchan', {safe: true}).collection('pics');
 imgur.setClientID('b1cf3448754f15f');
 
 function upload (filename, id, from, callback) {
-  imgur.upload(filename, function (err, imgurRes) {
-    console.log(imgurRes);
+  db.findOne({id: id}, {}, function(err, post) {
+    if (!post) {
+      imgur.upload(filename, function (err, imgurRes) {
+        console.log(imgurRes);
 
-    if (err) {
-      console.dir(err);
-      callback('imgur upload failed');
-    } 
+        if (err) {
+          console.dir(err);
+          callback('imgur upload failed');
+        } 
 
-    else if (!imgurRes.data || !imgurRes.data.link) {
-      // imgur-upload calls my callbakc twice for some reason
-    }
+        else if (!imgurRes.data || !imgurRes.data.link) {
+          // imgur-upload calls my callbakc twice for some reason
+        }
 
-    else {
-      db.findOne({id: id}, {}, function(err, post) {
-        if (!post) {
+        else {
           try {
             db.insert({
               url: imgurRes.data.link,
@@ -36,14 +36,11 @@ function upload (filename, id, from, callback) {
               }
             }); 
           } catch (e) { console.dir(e); }
-        } else {
-          //console.log("duplicate lol");
-          callback(null, true, null);
-        }
-      });
 
-      fs.unlink(filename, function (err) { 
-        if (err) console.log('Error deleting temporary file: ' + filename); 
+          fs.unlink(filename, function (err) { 
+            if (err) console.log('Error deleting temporary file: ' + filename); 
+          });
+        }
       });
     }
   });
