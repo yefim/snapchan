@@ -3,7 +3,7 @@ var client = new snapchat.Client();
 var config = require("./config.json");
 var upload = require("./upload");
 
-client.login(config.username, config.password);
+client.login(config.snapchat_user, config.snapchat_pw);
 
 client.on("sync", function(data) {
   data.snaps.forEach(function(snap, i) {
