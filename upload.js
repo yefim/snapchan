@@ -18,7 +18,7 @@ function upload (filename, id, from, callback) {
     }
 
     else {
-      db.findOne({id: id}, function(err, post) {
+      db.findOne({id: id}, {}, function(err, post) {
         if (!post) {
           try {
             db.insert({
