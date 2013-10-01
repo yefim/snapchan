@@ -9,19 +9,13 @@ var enq = require('./enq');
 client.login(config.snapchat_user, config.snapchat_pw);
 
 client.on("sync", function(data) {
-  if (!data.snaps) {
-    return console.log('no snaps lol');
-  }
-
   data.snaps.forEach(function(snap, i) {
     if (snap.t) {
       utils.dup(snap.id, function() {
-        console.log(snap);
         var filename = "snap" + i + ".jpg";
         var out = require('fs').createWriteStream(filename);
         client.getBlob(snap.id, out, function (err) { if (err) console.log(err); });
         out.on("finish", function () {
-          // console.log("download finished for filename: " + filename);
           ocr.process(filename, function(err, text) {
             if (err) console.log(err);
             text = text || "";
