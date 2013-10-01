@@ -3,7 +3,6 @@ var ocr = require("nodecr");
 var client = new snapchat.Client();
 var config = require("./config.json");
 var utils = require("./upload");
-var submit = require("./submit");
 var enq = require('./enq');
 
 client.login(config.snapchat_user, config.snapchat_pw);
@@ -38,10 +37,4 @@ client.on("sync", function(data) {
 
 setInterval(function() {
   client.sync();
-/*
-  var post = queue.shift();
-  if (post) {
-    submit(post.url, post.title, function() {});
-  }
-  */
 }, 3000);
