@@ -1,0 +1,9 @@
+runtime "node"
+exec "iron-uploader.js"
+file "package.json"
+file "submit.js"
+file "upload.js"
+file "config.json"
+build "npm install"
+remote
+
