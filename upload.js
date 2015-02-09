@@ -1,9 +1,10 @@
 var imgur = require('imgur-upload');
 var mongo = require('mongoskin');
 var fs = require('fs');
+var _ = require('lodash');
 
 var db = mongo.db('localhost:27017/snapchan', {safe: true}).collection('pics');
-imgur.setClientID('b1cf3448754f15f');
+imgur.setClientID('f5ad64079b3b9a3');
 
 function upload (filename, id, from, callback) {
   imgur.upload(filename, function (err, imgurRes) {
@@ -42,6 +43,21 @@ function upload (filename, id, from, callback) {
   });
 };
 
+function mark (id, callback) {
+  db.insert({
+    url: 'mark',
+    id: id,
+    from: 'mark'
+  }, {}, callback);
+};
+
+function unmark (id, callback) {
+  db.remove({
+    id: id
+  }, {}, callback);
+};
+
+
 // only run callback if unique
 function dup(id, callback) {
   db.findOne({id: id}, {}, function(err, post) {
@@ -53,4 +69,4 @@ function dup(id, callback) {
   });
 };
 
-module.exports = {upload: upload, dup: dup}
+module.exports = {upload: upload, dup: dup, mark: mark, unmark: unmark};
